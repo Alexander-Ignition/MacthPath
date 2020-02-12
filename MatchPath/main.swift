@@ -8,15 +8,17 @@
 
 import Foundation
 
-func routes(_ path: Path) {
+func routes(_ path: LinkedPath) {
+    print(path, terminator: " -> ")
+
     switch path {
-    case .path("api", .empty):
+    case .part("api", .empty):
         print("root api path")
-    case .path("api", .path("users", .path(let id, .empty))):
+    case .part("api", .part("users", .part(let id, .empty))):
         print("fetch user by \(id)")
-    case .path("api", .path("books", .empty)):
+    case .part("api", .part("books", .empty)):
         print("fetch all books")
-    case .path("api", .path("devices", .path(let type, .path(let id, .empty)))):
+    case .part("api", .part("devices", .part(let type, .part(let id, .empty)))):
         print("fetch device \(type) by \(id)")
     default:
         print("404")
@@ -27,5 +29,6 @@ routes("api/users/1")
 routes("api/users/2")
 routes("api/books")
 routes("/index")
-routes(["home", "index"])
+routes(["api", "books"])
 routes("api/devices/intercoms/1")
+routes("api" / "users" / 3)
